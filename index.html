@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRC Encoder-Decoder</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Cyclic Redundancy Check (CRC) Encoder-Decoder</h1>
+
+    <section class="encoder">
+      <h2>Encoder</h2>
+      <label>Data Frame (Binary):</label>
+      <input type="text" id="dataword" placeholder="e.g., 1101">
+      <label>Generator Polynomial (Binary):</label>
+      <input type="text" id="generator" placeholder="e.g., 1011">
+      <button onclick="encode()">Encode</button>
+      <div class="output" id="encodedResult"></div>
+    </section>
+
+    <hr>
+
+    <section class="decoder">
+      <h2>Decoder</h2>
+      <label>Received Codeword (Binary):</label>
+      <input type="text" id="receivedCode" placeholder="e.g., 1101010">
+      <label>Generator Polynomial (Binary):</label>
+      <input type="text" id="decoderGen" placeholder="e.g., 1011">
+      <button onclick="decode()">Check Validity</button>
+      <div class="output" id="decodedResult"></div>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
