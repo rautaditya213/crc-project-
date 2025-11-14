@@ -1,3 +1,4 @@
+// XOR operation for Mod-2 Division
 function xor(a, b) {
   let result = "";
   for (let i = 1; i < b.length; i++) {
@@ -6,6 +7,7 @@ function xor(a, b) {
   return result;
 }
 
+// Perform Mod-2 Division
 function mod2div(dividend, divisor) {
   let pick = divisor.length;
   let tmp = dividend.substring(0, pick);
@@ -15,8 +17,7 @@ function mod2div(dividend, divisor) {
       tmp = xor(divisor, tmp) + dividend[pick];
     else
       tmp = xor("0".repeat(pick), tmp) + dividend[pick];
-
-    pick += 1;
+    pick++;
   }
 
   if (tmp[0] === '1')
@@ -27,36 +28,40 @@ function mod2div(dividend, divisor) {
   return tmp;
 }
 
-function encode() {
+// Encode function
+document.getElementById("encodeBtn").addEventListener("click", function() {
   const dataword = document.getElementById("dataword").value.trim();
   const generator = document.getElementById("generator").value.trim();
+
   if (!dataword || !generator) {
-    alert("Please enter both Data Frame and Generator Polynomial.");
+    alert("Please enter both Data Frame and Generator Polynomial!");
     return;
   }
 
-  const l_gen = generator.length;
-  const appendedData = dataword + "0".repeat(l_gen - 1);
+  const appendedData = dataword + "0".repeat(generator.length - 1);
   const remainder = mod2div(appendedData, generator);
   const codeword = dataword + remainder;
 
-  document.getElementById("encodedResult").innerHTML = 
-    `Remainder: <b>${remainder}</b><br>Encoded Codeword: <b>${codeword}</b>`;
-}
+  document.getElementById("encodedOutput").innerHTML = `
+    <b>Remainder:</b> ${remainder}<br>
+    <b>Codeword:</b> ${codeword}
+  `;
+});
 
-function decode() {
-  const received = document.getElementById("receivedCode").value.trim();
-  const generator = document.getElementById("decoderGen").value.trim();
+// Decode function
+document.getElementById("decodeBtn").addEventListener("click", function() {
+  const received = document.getElementById("received").value.trim();
+  const generator = document.getElementById("generator2").value.trim();
+
   if (!received || !generator) {
-    alert("Please enter both Received Codeword and Generator Polynomial.");
+    alert("Please enter both Codeword and Generator Polynomial!");
     return;
   }
 
   const remainder = mod2div(received, generator);
-  const valid = !remainder.includes("1");
+  const noError = !remainder.includes("1");
 
-  document.getElementById("decodedResult").innerHTML = 
-    valid 
-      ? "✅ No error detected. Data received correctly."
-      : `❌ Error detected! Syndrome (remainder): <b>${remainder}</b>`;
-}
+  document.getElementById("decodedOutput").innerHTML = noError
+    ? "✅ No Error Detected. Data Received Correctly!"
+    : `❌ Error Detected! Syndrome: <b>${remainder}</b>`;
+});
